@@ -12,6 +12,10 @@ public class Voo {
 	private Rota rota;
 	private Status status;
 	
+	public Voo(Rota rota, Duration duracao) {
+		this(rota, LocalDateTime.parse("2016-08-12T12:00:00.0"), duracao);
+	}
+
 	public Voo(Rota rota, LocalDateTime datahora, Duration duracao) {
 		this.rota = rota;
 		this.datahora = datahora;
