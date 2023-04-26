@@ -1,12 +1,14 @@
 package pucrs.myflight.modelo;
 
-public class CiaAerea {
+public class CiaAerea implements ContavelInterface {
+	private static int numOfInstances = 0;
 	private String codigo;
 	private String nome;
 	
 	public CiaAerea(String codigo, String nome) {
 		this.codigo = codigo;
 		this.nome = nome;
+		numOfInstances++;
 	}
 	
 	public String getCodigo() {
@@ -15,5 +17,10 @@ public class CiaAerea {
 	
 	public String getNome() {
 		return nome;
+	}
+
+	@Override
+	public int getTotalInstances() {
+		return numOfInstances;
 	}	
 }

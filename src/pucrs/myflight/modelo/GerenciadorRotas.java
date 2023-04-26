@@ -1,5 +1,6 @@
 package pucrs.myflight.modelo;
 import java.util.ArrayList;
+import java.util.Collections;
 public class GerenciadorRotas {
     private ArrayList<Rota> rotas;
 
@@ -13,6 +14,10 @@ public class GerenciadorRotas {
 
     public ArrayList<Rota> listarTodas() {
         return rotas;
+    }
+
+    public void ordenarPorNomeCia() {
+        Collections.sort(rotas);
     }
 
     public ArrayList<Rota> buscarPorOrigem(Aeroporto origem) {
