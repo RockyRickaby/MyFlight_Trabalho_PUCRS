@@ -22,4 +22,10 @@ public class Aeroporto {
 	public Geo getLocal() {
 		return loc;
 	}
+
+	public boolean equals(Aeroporto aeroporto) {
+		return this.codigo.equals(aeroporto.codigo) &&
+			   this.nome.equals(aeroporto.nome) &&
+			   this.loc.equals(aeroporto.loc);
+	}
 }

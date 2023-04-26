@@ -16,4 +16,9 @@ public class Geo {
 	public double getLongitude() {
 		return longitude;
 	}
+
+	public boolean equals(Geo loc) {
+		return this.latitude == loc.latitude &&
+			   this.longitude == loc.longitude;
+	}
 }
