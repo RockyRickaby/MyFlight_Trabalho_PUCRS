@@ -22,10 +22,10 @@ public class Geo {
 	}
 	
 	public static double distanciaEntrePontos(Geo p1, Geo p2) {
-		double lat1 = Math.toRadians(p1.latitude);
-		double lat2 = Math.toRadians(p2.latitude);
+		double lat1 = Math.toRadians(p1.getLatitude());
+		double lat2 = Math.toRadians(p2.getLatitude());
 
-		double dLongitude = Math.toRadians(p2.longitude - p1.longitude);
+		double dLongitude = Math.toRadians(p2.getLongitude() - p1.getLongitude());
 		double dLatitude = lat2 - lat1;
 
 		double latSin = Math.pow(Math.sin(dLatitude / 2), 2);

@@ -31,4 +31,8 @@ public class VooEscalas extends Voo {
     public Rota getRota() {
         return rotas.get(0);
     }
+
+    public ArrayList<Rota> getRotas() {
+        return rotas;
+    }
 }
