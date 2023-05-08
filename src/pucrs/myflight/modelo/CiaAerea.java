@@ -22,5 +22,10 @@ public class CiaAerea implements ContavelInterface {
 	@Override
 	public int getTotalInstances() {
 		return numOfInstances;
-	}	
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("%s, %s", nome, codigo);
+	}
 }

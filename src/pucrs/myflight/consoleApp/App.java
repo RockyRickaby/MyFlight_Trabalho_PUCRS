@@ -1,4 +1,5 @@
 package pucrs.myflight.consoleApp;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import pucrs.myflight.modelo.*;
@@ -19,6 +20,15 @@ public class App {
 		VooEscalas voos = new VooEscalas(LocalDateTime.now());
 		voos.adicionarRota(rota);
 		voos.adicionarRota(rota2);
-		System.out.printf("%s\n%s\n", voo.getDuracao(), voos.getDuracao());
+		System.out.printf("%s\n%s\n\n", voo.getDuracao(), voos.getDuracao());
+
+		GerenciadorCias ger = new GerenciadorCias();
+		try {
+			ger.carregaDados();
+		}
+		catch (IOException e) {
+			System.out.println("Oops!");
+		}
+		ger.listarTodas().forEach(System.out::println);
 	}
 }
