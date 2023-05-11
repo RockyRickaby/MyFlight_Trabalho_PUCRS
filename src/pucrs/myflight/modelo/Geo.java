@@ -40,4 +40,9 @@ public class Geo {
 		return this.latitude == loc.latitude &&
 			   this.longitude == loc.longitude;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Latitude: %f, Longitude: %f", latitude, longitude);
+	}
 }

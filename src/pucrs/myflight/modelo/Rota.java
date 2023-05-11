@@ -33,4 +33,9 @@ public class Rota implements Comparable<Rota> {
 	public int compareTo(Rota o) {
 		return this.cia.getNome().compareTo(o.cia.getNome());
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Companhia aerea: %s\nOrigem; %s\nDestino: %s\nAviao: %s", cia, origem, destino, aeronave);
+	}
 }

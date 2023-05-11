@@ -33,4 +33,9 @@ public class Aeroporto implements Comparable<Aeroporto> {
 	public int compareTo(Aeroporto o) {
 		return this.nome.compareTo(o.nome);
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s - %s, %s", codigo, nome, loc);
+	}
 }

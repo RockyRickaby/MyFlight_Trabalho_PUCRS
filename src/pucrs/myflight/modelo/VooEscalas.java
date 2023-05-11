@@ -35,4 +35,13 @@ public class VooEscalas extends Voo {
     public ArrayList<Rota> getRotas() {
         return rotas;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("--\n");
+        for (Rota r : rotas) {
+            str.append(String.format("%s\n--\n", r));
+        }
+        return String.format("%s%s", str, super.toString());
+    }
 }

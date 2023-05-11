@@ -26,6 +26,6 @@ public class CiaAerea implements ContavelInterface {
 	
 	@Override
 	public String toString() {
-		return String.format("%s, %s", nome, codigo);
+		return String.format("%s - %s", codigo, nome);
 	}
 }

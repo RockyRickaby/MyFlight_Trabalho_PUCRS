@@ -21,5 +21,8 @@ public class VooDireto extends Voo {
     public Rota getRota() {
         return rota;
     }
-    
+    @Override
+    public String toString() {
+        return String.format("--\n%s\n--\n%s", rota, super.toString());
+    }
 }

@@ -23,4 +23,9 @@ public class Aeronave implements ContavelInterface{
 	public int getTotalInstances() {
 		return instances;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s - %s", codigo, descricao);
+	}
 }

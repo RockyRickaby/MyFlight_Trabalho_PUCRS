@@ -2,6 +2,7 @@ package pucrs.myflight.modelo;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public abstract class Voo {
 	
@@ -29,5 +30,10 @@ public abstract class Voo {
 	
 	public void setStatus(Status novo) {
 		this.status = novo;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Data e hora do voo: %s\nStatus: %s", datahora.format(DateTimeFormatter.ofPattern("dd/MM/yyy hh:MM")), status);
 	}
 }
