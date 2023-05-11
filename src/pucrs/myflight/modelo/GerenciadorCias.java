@@ -6,14 +6,20 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
 import java.util.ArrayList;
 
 public class GerenciadorCias {
 	private ArrayList<CiaAerea> empresas;
+	private static GerenciadorCias instance = null;
 	
-	public GerenciadorCias() {
+	private GerenciadorCias() {
 		empresas = new ArrayList<>();
+	}
+
+	public static GerenciadorCias getInstance() {
+		if (instance == null)
+			instance = new GerenciadorCias();
+		return instance;
 	}
 
 	public void adicionar(CiaAerea cia) {
@@ -42,14 +48,12 @@ public class GerenciadorCias {
 	}
 
 	public void carregaDados() throws IOException {
-		Path path = Paths.get("airlines.dat");
-		BufferedReader br = Files.newBufferedReader(path, Charset.defaultCharset());
+		Path path = Paths.get("src/pucrs/myflight/dados/airlines.dat");
+		BufferedReader br = Files.newBufferedReader(path, Charset.forName("utf8"));
 		String line = br.readLine();
 		while ((line = br.readLine()) != null) {
-			Scanner sc = new Scanner(line).useDelimiter(";");
-			String cod = sc.next(), nome = sc.next();
-			this.adicionar(new CiaAerea(cod, nome));
-			sc.close();
+			String[] aux = line.split(";", 2);
+			this.adicionar(new CiaAerea(aux[0], aux[1]));
 		}
 	}
 }

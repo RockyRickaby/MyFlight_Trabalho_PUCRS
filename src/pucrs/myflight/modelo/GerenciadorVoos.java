@@ -3,9 +3,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 public class GerenciadorVoos {
     private ArrayList<Voo> voos;
+    private static GerenciadorVoos instance = null;
 
-    public GerenciadorVoos() {
+    private GerenciadorVoos() {
         voos = new ArrayList<>();
+    }
+
+    public static GerenciadorVoos getInstance() {
+        if (instance == null)
+            instance = new GerenciadorVoos();
+        return instance;
     }
 
     public void adicionar(Voo voo) {
