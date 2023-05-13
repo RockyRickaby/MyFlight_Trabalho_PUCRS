@@ -7,28 +7,38 @@ public class App {
 
 	public static void main(String[] args) {
 		System.out.println("\nMyFlight project...");
-		CiaAerea cia = new CiaAerea(null, null);
-		Geo loc1 = new Geo(35.683333, 139.766667);
-		Geo loc2 = new Geo(41.881944, -87.627778);
-		System.out.printf("%s\n", loc1.distancia(loc2));
-		Aeroporto origem = new Aeroporto(null, null, loc1);
-		Aeroporto destino = new Aeroporto(null, null, loc2);
-		Aeronave av = new Aeronave(null, null);
-		Rota rota = new Rota(cia, origem, destino, av);
-		Rota rota2 = new Rota(cia, destino, origem, av);
-		VooDireto voo = new VooDireto(LocalDateTime.now(),  rota);
-		VooEscalas voos = new VooEscalas(LocalDateTime.now());
-		voos.adicionarRota(rota);
-		voos.adicionarRota(rota2);
-		System.out.printf("%s\n%s\n\n", voo.getDuracao(), voos.getDuracao());
 
-		GerenciadorCias ger = new GerenciadorCias();
+		GerenciadorCias gerCias = GerenciadorCias.getInstance();
+		GerenciadorAeronaves gerAvioes = GerenciadorAeronaves.getInstance();
+		GerenciadorAeroportos gerAeroportos = GerenciadorAeroportos.getInstance();
+		GerenciadorRotas gerRotas = GerenciadorRotas.getInstance();
+		GerenciadorVoos gerVoos = GerenciadorVoos.getInstance();
 		try {
-			ger.carregaDados();
+			gerCias.carregaDados();
+			gerAvioes.carregaDados();
+			gerAeroportos.carregaDados();
+			gerRotas.carregaDados();
+
 		}
 		catch (IOException e) {
 			System.out.println("Oops!");
+			e.printStackTrace();
 		}
-		ger.listarTodas().forEach(System.out::println);
+		//gerCias.listarTodas().forEach(System.out::println);
+		//gerAvioes.listarTodas().forEach(System.out::println);
+		//gerAeroportos.listarTodos().forEach(System.out::println);
+		//gerRotas.listarTodas().forEach(System.out::println);
+
+		Rota rota = gerRotas.listarTodas().get(0);
+		VooEscalas a = new VooEscalas(LocalDateTime.now());
+		VooEscalas b = new VooEscalas(LocalDateTime.of(2022, 12, 30, 15, 0, 0));
+		VooDireto c = new VooDireto(LocalDateTime.now(), rota);
+		a.adicionarRota(rota);
+		a.adicionarRota(gerRotas.listarTodas().get(10));
+		gerVoos.adicionar(a);
+		gerVoos.adicionar(b);
+		Geo dis1 = rota.getOrigem().getLocal();
+		Geo dis2 = rota.getDestino().getLocal();
+		System.out.println(rota + "\n\n" + Geo.distanciaEntrePontos(dis1, dis2) + " KM\n\n" + c.getDuracao());
 	}
 }
