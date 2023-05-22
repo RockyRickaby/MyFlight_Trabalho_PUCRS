@@ -6,13 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 public class GerenciadorAeronaves {
-    private ArrayList<Aeronave> aeronaves;
+    private HashMap<String, Aeronave> aeronaves;
     private static GerenciadorAeronaves instance = null;
 
-    private GerenciadorAeronaves() {
-        aeronaves = new ArrayList<>();
-    }
+    private GerenciadorAeronaves() { aeronaves = new HashMap<>(); }
 
     public static GerenciadorAeronaves getInstance() {
         if (instance == null)
@@ -20,21 +19,9 @@ public class GerenciadorAeronaves {
         return instance;
     }
 
-    public void adicionar(Aeronave aviao) {
-        aeronaves.add(aviao);
-    }
+    public void adicionar(String cod, String desc) { this.aeronaves.put(cod, new Aeronave(cod, desc)); }
 
-    public ArrayList<Aeronave> listarTodas() {
-        return aeronaves;
-    }
-
-    public Aeronave buscarPorCodigo(String cod) {
-        for (Aeronave a : aeronaves) {  
-            if (a.getCodigo().equals(cod))
-                return a;
-        }
-        return null;
-    }
+    public Aeronave buscarPorCodigo(String cod) { return this.aeronaves.get(cod.toUpperCase()); }
 
     public void carregaDados() throws IOException {        
         Path path = Paths.get("src/pucrs/myflight/dados/equipment.dat");
@@ -42,7 +29,8 @@ public class GerenciadorAeronaves {
         String line = br.readLine();
         while ((line = br.readLine()) != null) {
             String[] aux = line.split(";", 3);
-            this.adicionar(new Aeronave(aux[0], aux[1]));
+            this.adicionar(aux[0], aux[1]);
         }
     }
+    public ArrayList<Aeronave> listarTodas() { return new ArrayList<Aeronave>(aeronaves.values()); }
 }

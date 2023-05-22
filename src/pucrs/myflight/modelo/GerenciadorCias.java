@@ -7,14 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GerenciadorCias {
-	private ArrayList<CiaAerea> empresas;
+	private HashMap<String, CiaAerea> empresas;
 	private static GerenciadorCias instance = null;
 	
-	private GerenciadorCias() {
-		empresas = new ArrayList<>();
-	}
+	private GerenciadorCias() { empresas = new HashMap<>(); }
 
 	public static GerenciadorCias getInstance() {
 		if (instance == null)
@@ -22,28 +21,14 @@ public class GerenciadorCias {
 		return instance;
 	}
 
-	public void adicionar(CiaAerea cia) {
-		empresas.add(cia);
-	}
+	public void adicionar(String cod, String nome) { this.empresas.put(cod, new CiaAerea(cod, nome)); }
 
-	public ArrayList<CiaAerea> listarTodas() {
-		return empresas;
-	}
-
-	public CiaAerea buscarCodigo(String cod) {
-		for (CiaAerea e : empresas) {
-			if (e.getCodigo().equals(cod)) {
-				return e;
-			}
-		}
-		return null;
-	}
+	public CiaAerea buscarCodigo(String cod) { return this.empresas.get(cod.toUpperCase()); }
 
 	public CiaAerea buscarNome(String cod) {
-		for (CiaAerea e : empresas) {
-			if (e.getNome().equals(cod))
-				return e;
-		}
+		for (CiaAerea k : this.listarTodas())
+			if (k.getNome().equalsIgnoreCase(cod))
+				return k;
 		return null;
 	}
 
@@ -53,7 +38,8 @@ public class GerenciadorCias {
 		String line = br.readLine();
 		while ((line = br.readLine()) != null) {
 			String[] aux = line.split(";", 2);
-			this.adicionar(new CiaAerea(aux[0], aux[1]));
+			this.adicionar(aux[0], aux[1]);
 		}
 	}
+	public ArrayList<CiaAerea> listarTodas() { return new ArrayList<CiaAerea>(empresas.values()); }
 }

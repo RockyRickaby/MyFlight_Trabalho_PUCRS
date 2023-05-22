@@ -6,14 +6,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 public class GerenciadorRotas {
-    private ArrayList<Rota> rotas;
+    //Rotas indexadas pelo aeroporto de ORIGEM
+    private HashMap<Aeroporto, HashSet<Rota>> rotas;
     private static GerenciadorRotas instance = null;
 
-    private GerenciadorRotas() {
-        rotas = new ArrayList<>();
-    }
+    private GerenciadorRotas() { rotas = new HashMap<>(); }
 
     public static GerenciadorRotas getInstance() {
         if (instance == null)
@@ -21,25 +21,24 @@ public class GerenciadorRotas {
         return instance;
     }
 
-    public void adicionar(Rota rota) {
-        rotas.add(rota);
+    public void adicionar(Aeroporto origem, Rota rota) {
+        if (!rotas.containsKey(origem))
+            rotas.put(origem, new HashSet<>());
+        rotas.get(origem).add(rota);
     }
 
-    public ArrayList<Rota> listarTodas() {
-        return rotas;
-    }
-
-    public void ordenarPorNomeCia() {
-        Collections.sort(rotas);
-    }
+    /* Desnecessário também?
+     *public void ordenarPorNomeCia() { Collections.sort(rotas); }
+     */
 
     public ArrayList<Rota> buscarPorOrigem(Aeroporto origem) {
-        ArrayList<Rota> aux = new ArrayList<>();
-        for (Rota r : rotas) {
-            if (r.getOrigem().equals(origem))
-                aux.add(r);
-        }
-        return aux;
+        ArrayList<Rota> routes = new ArrayList<>();
+        if (origem != null)
+            return routes;
+        for (Aeroporto k : rotas.keySet())
+            if (k.equals(origem))
+                routes.addAll(rotas.get(k));
+        return routes;
     }
 
     public void carregaDados() throws IOException {
@@ -54,8 +53,18 @@ public class GerenciadorRotas {
             CiaAerea cia = cias_temp.buscarCodigo(aux[0]);
             Aeroporto de = portos_temp.buscarPorCodigo(aux[1]);
             Aeroporto para = portos_temp.buscarPorCodigo(aux[2]);
-            Aeronave aviao = naves_temp.buscarPorCodigo(aux[5]);
-            this.adicionar(new Rota(cia, de, para, aviao));
+            String navCod = aux[5];
+            if (aux[5].length() > 3) {
+                navCod = navCod.split(" ")[0];
+            }
+            Aeronave aviao = naves_temp.buscarPorCodigo(navCod);
+            this.adicionar(de, new Rota(cia, de, para, aviao));
         }
+    }
+    public ArrayList<Rota> listarTodas() {
+        ArrayList<Rota> aux = new ArrayList<>();
+        for (Aeroporto k : rotas.keySet())
+            aux.addAll(rotas.get(k));
+        return aux;
     }
 }

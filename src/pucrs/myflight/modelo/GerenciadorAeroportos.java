@@ -6,15 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 
 public class GerenciadorAeroportos {
-    private ArrayList<Aeroporto> aeroportos;
+    private HashMap<String, Aeroporto> aeroportos;
     private static GerenciadorAeroportos instance = null;
 
-    private GerenciadorAeroportos() {
-        aeroportos = new ArrayList<>();
-    }
+    private GerenciadorAeroportos() { aeroportos = new HashMap<>(); }
 
     public static GerenciadorAeroportos getInstance() {
         if (instance == null)
@@ -22,25 +20,14 @@ public class GerenciadorAeroportos {
         return instance;
     }
 
-    public void adicionar(Aeroporto aero) {
-        aeroportos.add(aero);
-    }
+    public void adicionar(String cod, Aeroporto aero) { aeroportos.put(cod, aero); }
 
-    public ArrayList<Aeroporto> listarTodos() {
-        return aeroportos;
-    }
+    
+    /* Desnecessário agora, I guess?
+     * public void ordenarPorNome() { Collections.sort(aeroportos); }
+     */
 
-    public void ordenarPorNome() {
-        Collections.sort(aeroportos);
-    }
-
-    public Aeroporto buscarPorCodigo(String cod) {
-        for (Aeroporto p : aeroportos) {
-            if (p.getCodigo().equals(cod))
-                return p;
-        }
-        return null;
-    }
+    public Aeroporto buscarPorCodigo(String cod) { return this.aeroportos.get(cod.toUpperCase()); }
 
     public void carregaDados() throws IOException {
         Path path = Paths.get("src/pucrs/myflight/dados/airports.dat");
@@ -48,8 +35,9 @@ public class GerenciadorAeroportos {
         String line = br.readLine();
         while ((line = br.readLine()) != null) {
             String[] aux = line.split(";", 5);
-            Geo loc = new Geo(Double.parseDouble(aux[1]), Double.parseDouble(aux[2]));
-            this.adicionar(new Aeroporto(aux[0], aux[3] + " " + aux[4], loc));
+            Geo geo = new Geo(Double.parseDouble(aux[1]), Double.parseDouble(aux[2]));
+            this.adicionar(aux[0], new Aeroporto(aux[0], aux[3] + " " + aux[4], geo));
         }
     }
+    public ArrayList<Aeroporto> listarTodos() { return new ArrayList<Aeroporto>(aeroportos.values()); }
 }
